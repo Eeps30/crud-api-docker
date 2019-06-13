@@ -1,13 +1,17 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb');
+const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
 
 const dbName = process.env.NODE_ENV === 'dev' ? 'database-test' : 'database'
-const url = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@ds237267.mlab.com:37267/crud-api-docker`
+const MONGO_URL = `mongodb://@ds237267.mlab.com:37267/crud-api-docker`
 const options = {
     useNewUrlParser: true,
-    reconnectTries: 60,
-    reconnectInterval: 1000
+    auth: {
+        user: `${process.env.MONGO_INITDB_ROOT_USERNAME}`,
+        password: `${process.env.MONGO_INITDB_ROOT_PASSWORD}`
+    }
 }
 const routes = require('./routes/routes.js');
 const port = process.env.PORT || 80
@@ -21,16 +25,21 @@ app.use((req, res) => {
     res.status(404);
 })
 
-MongoClient.connect(url, options, (err, database) => {
+mongoose.connect(MONGO_URL, options, (err, database) => {
     if (err) {
-        console.log(`FATAL MONGODB CONNECTION ERROR: ${err}:${err.stack}`);
-        process.exit(1);
+        console.log(`FATAL MONGODB CONNECTION ERROR: ${err}:${err.stack}`)
+        process.exit(1)
     }
-    app.locals.db = database.db('api')
-    http.listen(port, () => {
-        console.log("Listening on port: " + port)
-        app.emit('APP_STARTED');
-    })
+})
+
+let db = mongoose.connection;
+
+db.once('open', () => {
+    console.log("MongoDB Connection Successful");
+})
+
+db.on('error', (err) => {
+    console.log("MongoDB Connection: " + err)
 })
 
 module.exports = app;
