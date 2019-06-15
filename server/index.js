@@ -1,5 +1,6 @@
 //DOCKER-COMPOSE is set up to have NGINX listen on port 3050.
 //localhost:3050
+//stand up project with: 'docker-compose up' from the root directory
 /////////////////////////////////////////////////////////////
 
 const keys = require('./keys');
