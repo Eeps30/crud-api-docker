@@ -1,1 +1,0 @@
-# Project used to learn more about Docker and CI/CD.
