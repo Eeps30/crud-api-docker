@@ -1,3 +1,7 @@
+//DOCKER-COMPOSE is set up to have NGINX listen on port 3050.
+//localhost:3050
+/////////////////////////////////////////////////////////////
+
 const keys = require('./keys');
 
 // Express App Setup
