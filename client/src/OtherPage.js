@@ -1,11 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-export default () => {
-    return (
-        <div>
-            I'm some other page!
-            <Link to="/">Go back home</Link>
-        </div>
-    );
+class LandingPage extends React.Component {
+    componentDidMount() {
+        this.getData();
+    }
+
+    getData() {
+        axios.get('https://api.spacexdata.com/v3/launches')
+            .then(res => {
+                console.log(res);
+            })
+    }
+
+    render() {
+        return(
+            <div>Hello</div>
+        )
+    }
 };
+
+export default LandingPage;

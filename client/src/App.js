@@ -1,21 +1,15 @@
 import React from "react";
-import "./App.css";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import OtherPage from "./OtherPage";
+import { BrowserRouter as Router } from "react-router-dom";
+import Header from "./components/Header";
 
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        <header className="App-header">
-          <Link to="/">Home</Link>
-        </header>
-        <div>
-            <Route exact path="/" component={OtherPage} />
-        </div>
-      </div>
-    </Router>
-  );
+    return (
+        <Router>
+            <div className="App">
+                <Header />
+            </div>
+        </Router>
+    );
 }
 
 export default App;
